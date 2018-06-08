@@ -3,7 +3,7 @@ import {
   NgZone, OnDestroy, AnimationTransitionEvent} from '@angular/core';
 import {Toast} from './toast';
 import {ToastOptions} from './toast-options';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import 'rxjs/add/operator/first';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
@@ -18,7 +18,7 @@ import {Observable} from 'rxjs/Observable';
         </div> 
         <div *ngIf="toast.title" class="{{toast.config.titleClass || titleClass}}">{{toast.title}}</div>
         <div [ngSwitch]="toast.config.enableHTML">
-          <span *ngSwitchCase="true" class="{{toast.config.messageClass || messageClass}}" [innerHTML]="sanitizer.bypassSecurityTrustHtml(toast.message)"></span>
+          <span *ngSwitchCase="true" class="{{toast.config.messageClass || messageClass}}" [innerHTML]="innerHTML(toast)"></span>
           <span *ngSwitchDefault class="{{toast.config.messageClass || messageClass}}">{{toast.message}}</span>
         </div>             
       </div>
@@ -206,6 +206,10 @@ export class ToastContainer implements OnDestroy {
         });
     }
 
+  }
+
+  innerHTML(toast: Toast): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(toast.message);
   }
 
   private _ngExit() {

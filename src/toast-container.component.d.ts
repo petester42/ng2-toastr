@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, NgZone, OnDestroy, AnimationTransitionEvent } from '@angular/core';
 import { Toast } from './toast';
 import { ToastOptions } from './toast-options';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable';
 export declare class ToastContainer implements OnDestroy {
@@ -30,6 +30,7 @@ export declare class ToastContainer implements OnDestroy {
     anyToast(): boolean;
     findToast(toastId: number): Toast | void;
     onAnimationEnd(event: AnimationTransitionEvent): void;
+    innerHTML(toast: Toast): SafeHtml;
     private _ngExit();
     ngOnDestroy(): void;
 }
